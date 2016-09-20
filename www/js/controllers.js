@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova'])
 
-.controller('DashCtrl', function($scope,$cordovaNativeAudio ,$cordovaDeviceMotion, $timeout, $ionicPlatform, $window) {
+.controller('controlMovimiento', function($scope,$cordovaNativeAudio ,$cordovaDeviceMotion, $timeout, $ionicPlatform, $window) {
 
   $ionicPlatform.ready(function() {
 
@@ -58,8 +58,7 @@ angular.module('starter.controllers', ['ngCordova'])
     $scope.flagAba = 1;
     $scope.flagBArr = 1; 
     $scope.flagBAba = 0;
-    $scope.WHeight = $window.innerHeight;
-    $scope.WWidth = $window.innerWidth;
+    $scope.flagWatch = 0;
 
 
 
@@ -84,7 +83,7 @@ angular.module('starter.controllers', ['ngCordova'])
     $scope.watch = null;
     $scope.moveSpeed = 1.5;
 
-    $scope.startWatching = function() {   
+    $scope.startWatching = function() {
 
     $scope.watch = $cordovaDeviceMotion.watchAcceleration($scope.options);
 
@@ -211,6 +210,8 @@ angular.module('starter.controllers', ['ngCordova'])
 
             $scope.ImgOptions.x += $scope.moveSpeed * $scope.movimiento.y;
             $scope.ImgOptions.y += $scope.moveSpeed * -$scope.movimiento.x;
+
+            
             if($scope.ImgOptions.x < 0){
               $scope.ImgOptions.x = 0;
             }else if(($scope.ImgOptions.x + $scope.ImgOptions.height) > ($window.innerHeight - 90)){
@@ -225,44 +226,70 @@ angular.module('starter.controllers', ['ngCordova'])
             $scope.movimiento.timestamp = result.timestamp; 
     });
 
+
     }
 
 
-    $scope.stopWatching = function() {  
+    $scope.stopWatching = function() {
+
     $scope.watch.clearWatch();
-    }   
+    }
 
-
-
-
-
+    $scope.$on('$destroy', function(){
+        $scope.stopWatching();
+      })
   
 
   });//cierre ionicPlatform.ready
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
+
+.controller('controlLogin', function($scope, $state, $ionicPopup) {
+
+  $scope.Nombre;
+  console.log($state);
+
+
+  $scope.Logear = function(nombre){
+    {
+      console.log(nombre);
+      if(nombre == "" || nombre == null)
+      {
+        $ionicPopup.alert({
+          title: 'Error',
+          template: "Debe ingresar su nombre"
+          });
+      }
+      else
+      {
+        $ionicPopup.alert({
+          title: 'Bienvenido',
+          template: "Bienvenido ".concat(nombre)
+          });
+        $state.go('tab.movimiento');
+      }
+      
+    }
   };
-})
+  
+ })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+
+.controller('controlAbout', function($scope, $ionicLoading, $timeout) {
+
+  $scope.$on('$stateChangeStart', 
+             function(event, toState, toParams, fromState, fromParams){ 
+    $ionicLoading.show();
+  });
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $timeout(function(){
+      $ionicLoading.hide()
+    },2000);
+  });
+
+  
 });

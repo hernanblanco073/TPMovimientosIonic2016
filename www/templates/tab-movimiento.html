@@ -1,0 +1,22 @@
+<ion-view view-title="Dashboard">
+  <ion-content>
+    <ion-list>
+
+      <img style="position:absolute;
+                        width: {{ImgOptions.width}}px;
+                        height: {{ImgOptions.height}}px;
+                        top: {{ImgOptions.x}}px;
+                        left: {{ImgOptions.y}}px;" src="img/adam.jpg">
+
+      <div class="col text-center">
+        <button class="button button-small button-positive" ng-click="startWatching()">
+        Start
+        </button>
+        <button class="button button-small button-positive" ng-click="stopWatching()">
+        Stop
+        </button>
+      </div>
+
+    </ion-list>
+  </ion-content>
+</ion-view>
