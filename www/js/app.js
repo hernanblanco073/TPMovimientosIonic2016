@@ -53,11 +53,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   .state('tab.movimiento', {
       url: '/movimiento',
+      params: {Media: null},
       cache: false,
       views: {
         'tab-movimiento': {
           templateUrl: 'templates/tab-movimiento.html',
           controller: 'controlMovimiento'
+        }
+      }
+    })
+
+  .state('tab.grabar', {
+      url: '/grabar',
+      cache: false,
+      views: {
+        'tab-grabar': {
+          templateUrl: 'templates/tab-grabar.html',
+          controller: 'controlGrabar'
         }
       }
     })
